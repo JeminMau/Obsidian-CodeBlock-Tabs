@@ -1,0 +1,50 @@
+name: Release Obsidian plugin
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "*"
+
+env:
+    REPO_NAME: ${GITHUB_REPOSITORY##*/}
+    TAG: $GITHUB_REF_NAME
+    PackageName: ${GITHUB_REPOSITORY##*/}-v$GITHUB_REF_NAME
+
+permissions:
+    contents: write
+    pull-requests: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # https://github.com/actions/checkout
+      - name: checkout
+        uses: actions/checkout@v3
+
+      # https://github.com/actions/setup-node
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "latest"
+
+      # https://cli.github.com/manual/gh_release_create
+      # https://github.com/actions/upload-release-asset
+      - name: Build plugin && Create release
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        run: |
+          npm install
+          npm run build --if-present
+
+          mkdir ${{env.REPO_NAME}}
+          cp main.js manifest.json styles.css ${{env.REPO_NAME}}
+          zip -r ${{env.PackageName}}.zip ${{env.REPO_NAME}}
+
+          gh release create ${{env.TAG}} \
+            --title=${{env.PackageName}} \
+            --draft=false \
+            main.js manifest.json styles.css \
+            ${{env.PackageName}}.zip

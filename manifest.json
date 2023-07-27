@@ -1,11 +1,11 @@
 {
-	"id": "sample-plugin",
-	"name": "Sample Plugin",
+	"id": "codeblock-tabs",
+	"name": "CodeBlock Tabs",
 	"version": "1.0.0",
-	"minAppVersion": "0.15.0",
-	"description": "This is a sample plugin for Obsidian. This plugin demonstrates some of the capabilities of the Obsidian API.",
-	"author": "Obsidian",
-	"authorUrl": "https://obsidian.md",
-	"fundingUrl": "https://obsidian.md/pricing",
+	"minAppVersion": "0.0.1",
+	"description": "Create tab group for contiguous CodeBlocks.",
+	"author": "Jemin Mau",
+	"authorUrl": "https://github.com/JeminMau",
+	"fundingUrl": "https://buymeacoffee.com/JeminMau",
 	"isDesktopOnly": false
 }
